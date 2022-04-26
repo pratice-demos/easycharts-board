@@ -1,0 +1,18 @@
+
+.link-text {
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.link-text:hover {
+    color: var(--el-color-primary);
+}
+
+.card-border {
+    border: 1px solid #eee;
+}
+
+.card-border:hover {
+    border: 1px solid var(--el-color-primary-light-3);
+}
