@@ -5,6 +5,6 @@ const controller = require('../controller/index')
 
 // 路由处理
 router.get('/api/getTagList', controller.tag.getTagList)
-// router.post('/getPostList', post.getPostList)
+router.post('/api/getPostList', controller.post.getPostList)
 
 module.exports = router
