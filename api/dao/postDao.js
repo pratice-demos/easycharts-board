@@ -18,7 +18,13 @@ function queryPostList(info, callback) {
     ON C.tagId = T.tagId
     WHERE C.tagId IN (${
       info.tagList.toString()
-    })`
+    })
+    LIMIT ?, ?
+  `
+  // sql 转义
+  let {index, size} = info.page
+  sql = mysql.format(sql, [(index-1)*size, size])
+  // sql 查询
   db.sqlConnect(sql, [], (err, res) => {
     if(err) {
       console.log('[dao] queryPostList err: ', err)
