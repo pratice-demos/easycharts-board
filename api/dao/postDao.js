@@ -4,11 +4,11 @@ const mysql = require('mysql')
 // 根据标签列表获取帖子列表
 function queryPostList(info, callback) {
   let sql = `
-    SELECT postId, content, postTime,
+    SELECT postId, content, postTime, config,
     userId, userName, password, userTime,
-    T.tagId AS tagId
+    T.tagId AS tagId, detail
     FROM 
-    (SELECT postId, content, postTime,
+    (SELECT postId, content, postTime, config,
     U.userId AS userId, userName, password, userTime,
     tagId
     FROM post P
@@ -21,6 +21,7 @@ function queryPostList(info, callback) {
     })`
   db.sqlConnect(sql, [], (err, res) => {
     if(err) {
+      console.log('[dao] queryPostList err: ', err)
       callback(err, null)
     } else {
       callback(null, res)
