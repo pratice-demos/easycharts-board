@@ -16,6 +16,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 导入路由
 app.use('/', router);
 
+// 错误处理
 app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(500).send('Something broke!')
