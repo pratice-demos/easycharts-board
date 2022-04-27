@@ -1,16 +1,25 @@
-const dao = require('../dao/index')
+const service = require('../service/index')
 
 // 获取标签列表
+// 校验传入参数，判断获取数据成功或失败，将数据和状态码发给前端
 function getTagList (req, res) {
-  // 查询数据库
-  dao.tag.queryTagList((err, data) => {
+  service.tag.parseTagList(null, (err, data) => {
+    let ans = {}
     if(err) {
-      console.log('getTagList err: ', err)
-      return
+      console.log('[controller] getTagList err: err same as [service]')
+      ans = {
+        code: 30000,
+        msg: '数据库错误',
+        data: data
+      }
+    } else {
+      ans = {
+        code: 20000,
+        msg: '成功',
+        data: data
+      }
     }
-    if(data) {
-      res.send(data)
-    }
+    res.send(ans)
   })
 }
 
