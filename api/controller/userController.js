@@ -28,7 +28,7 @@ function register(req, res) {
       // 设置 cookie
       cookie.setCookie(res, {
         userName: userName,
-        nanoId: ans.data.nanoId
+        nanoId: data.nanoId
       })
     }
     res.send(ans)
@@ -62,7 +62,7 @@ function login(req, res) {
       // 设置 cookie
       cookie.setCookie(res, {
         userName: userName,
-        nanoId: ans.data.nanoId
+        nanoId: data.nanoId
       })
     }
     res.send(ans)

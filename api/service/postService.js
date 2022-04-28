@@ -88,7 +88,6 @@ function createPost(info, callback) {
     } else {
       // 判断用户是否存在，nanoId 是否正确
       const user = data1[0]
-      console.log('user', user)
       if(!user) {
         callback({code: 20000, msg: '用户不存在'}, null)
         return
@@ -104,7 +103,6 @@ function createPost(info, callback) {
             callback({code: 20000, msg: '帖子归类的标签不存在'}, null)
             return
           }
-          console.log('tag', data2[0])
           // 查询数据库
           dao.post.addPost({post: info.post, userId: user.userId}, (err, data3) => {
             if(err) {
