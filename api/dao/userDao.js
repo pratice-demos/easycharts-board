@@ -70,7 +70,7 @@ function addUser(info, callback) {
 
 /**
  * 更新用户 nanoId
- * @param info {userName & password & nanoId} 传入参数
+ * @param info {userName & nanoId} 传入参数
  * @param callback {function} 回调函数
  */
 function updateUserNanoId(info, callback) {
@@ -78,10 +78,9 @@ function updateUserNanoId(info, callback) {
     UPDATE user
     SET nanoId = ?
     WHERE userName = ?
-    AND password = ?
   `
   // sql 字符转义
-  sql = mysql.format(sql, [info.nanoId, info.userName, info.password])
+  sql = mysql.format(sql, [info.nanoId, info.userName])
   db.sqlConnect(sql, [], (err, res) => {
     if(err) {
       console.log('[dao] updateUserNanoId err: ', err)

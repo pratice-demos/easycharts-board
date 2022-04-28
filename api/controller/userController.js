@@ -1,28 +1,5 @@
 const service = require('../service/index')
-const msg = require('../config/msg.config')
-
-/**
- * 设置 cookie
- * @param res 响应对象
- * @param nanoId {string} 用户 nanoId
- */
-function setCookie(res, nanoId) {
-  res.cookie('nanoId', nanoId, {
-    domain: msg.cookieDomain,
-    maxAge: msg.cookieMaxAge,
-    signed: true
-  })
-}
-
-/**
- * 删除 cookie
- * @param res 响应对象
- */
-function delCookie(res) {
-  res.cookie('nanoId', '', {
-    maxAge: 0
-  })
-}
+const cookie = require('../cookie/index')
 
 /**
  * 用户注册接口
@@ -39,7 +16,7 @@ function register(req, res) {
       ans.code = err.code
       ans.msg = err.msg
       // 删除 cookie
-      delCookie(res)
+      cookie.delCookie(res, ['userName', 'nanoId'])
     } else {
       ans = {
         code: 10000,
@@ -47,7 +24,10 @@ function register(req, res) {
         data: data
       }
       // 设置 cookie
-      setCookie(res, ans.data.nanoId)
+      cookie.setCookie(res, {
+        userName: userName,
+        nanoId: ans.data.nanoId
+      })
     }
     res.send(ans)
   })
@@ -68,7 +48,7 @@ function login(req, res) {
       ans.code = err.code
       ans.msg = err.msg
       // 删除 cookie
-      delCookie(res)
+      cookie.delCookie(res, ['userName', 'nanoId'])
     } else {
       ans = {
         code: 10000,
@@ -76,7 +56,10 @@ function login(req, res) {
         data: data
       }
       // 设置 cookie
-      setCookie(res, ans.data.nanoId)
+      cookie.setCookie(res, {
+        userName: userName,
+        nanoId: ans.data.nanoId
+      })
     }
     res.send(ans)
   })
