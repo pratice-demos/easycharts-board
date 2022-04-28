@@ -62,6 +62,67 @@ function getPostList(info, callback) {
   })
 }
 
+/**
+ * 创建帖子，需要校验登录信息，返回帖子 id
+ * @param info {post & userName & nanoId} 传入参数
+ * @param callback {function} 回调函数
+ */
+function createPost(info, callback) {
+  // 校验参数
+  let {post, userName, nanoId} = info
+  // 校验登录信息
+  if(!userName || !nanoId) {
+    callback({code: 20000, msg: '未登录'}, null)
+    return
+  }
+  // 校验 post 是否符合要求
+  if(!post.content || !post.config || !utils.examNumInRange(post.tagId, 1, 10000)) {
+    callback({code: 20000, msg: '帖子内容不为空'}, null)
+    return
+  }
+  // 校验用户身份信息
+  dao.user.queryUserWithUN({userName, nanoId,}, (err, data1) => {
+    if(err) {
+      callback({code: 30000, msg: '数据库错误'}, null)
+      return
+    } else {
+      // 判断用户是否存在，nanoId 是否正确
+      const user = data1[0]
+      console.log('user', user)
+      if(!user) {
+        callback({code: 20000, msg: '用户不存在'}, null)
+        return
+      }
+      // 校验 tagId 是否正确
+      dao.tag.queryTag({tagId: post.tagId}, (err, data2) => {
+        if(err) {
+          callback({code: 30000, msg: '数据库错误'}, null)
+          return
+        } else {
+          // 判断 tagId 是否存在于数据库中
+          if(!data2 || !data2[0]) {
+            callback({code: 20000, msg: '帖子归类的标签不存在'}, null)
+            return
+          }
+          console.log('tag', data2[0])
+          // 查询数据库
+          dao.post.addPost({post: info.post, userId: user.userId}, (err, data3) => {
+            if(err) {
+              callback({code: 30000, msg: '数据库错误'}, null)
+            } else {
+              // 数据处理
+              const res = {}
+              res.postId = data3.insertId
+              callback(null, res)
+            }
+          })
+        }
+      })
+    }
+  })
+}
+
 module.exports = {
   getPostList,
+  createPost,
 }

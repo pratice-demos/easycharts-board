@@ -39,6 +39,30 @@ function queryPostList(info, callback) {
   })
 }
 
+/**
+ * 添加一条数据到帖子表
+ * @param info {post, userId} 传入参数
+ * @param callback {function} 回调函数
+ */
+function addPost(info, callback) {
+  let sql = `
+    INSERT INTO post (content, config, tagId, userId)
+    VALUES (?, ?, ?, ?)
+  `
+  // sql 转义
+  let {post, userId} = info
+  sql = mysql.format(sql, [post.content, post.config, post.tagId, userId])
+  db.sqlConnect(sql, [], (err, res) => {
+    if(err) {
+      console.log('[dao] addPost err: ', err)
+      callback(err, null)
+    } else {
+      callback(null, res)
+    }
+  })
+}
+
 module.exports = {
   queryPostList,
+  addPost,
 }
