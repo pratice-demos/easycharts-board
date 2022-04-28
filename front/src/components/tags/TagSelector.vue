@@ -1,30 +1,15 @@
 <script setup>
-import {onMounted, ref, toRefs} from "vue";
-import {useTagStore} from "../../store/tag";
+import {toRefs} from "vue";
 
-// 选中的 tagId
 const props = defineProps({
+  tagList: Array,
   tagsIndex: Array,
 })
-const {tagsIndex} = toRefs(props)
+const {tagList, tagsIndex} = toRefs(props)
 
 const emits = defineEmits([
   'tagsIndex'
 ])
-
-// 标签列表
-const tagStore = useTagStore()
-const tagList = ref([])
-
-onMounted(async () => {
-  await getTagList()
-})
-
-// 获取标签列表
-async function getTagList() {
-  tagList.value = (await tagStore.getList()).value
-  console.log(tagList.value)
-}
 
 // 判断是否处于选中状态
 function isSelected(tagId) {
@@ -63,7 +48,7 @@ function changeSelect(tagId) {
       :checked="isSelected(item.tagId)"
       @click="changeSelect(item.tagId)"
     >
-      {{item.desc}}
+      {{item.detail}}
     </el-check-tag>
   </div>
 </template>
