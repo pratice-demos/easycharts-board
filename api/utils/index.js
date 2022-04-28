@@ -7,8 +7,27 @@ function examUP(str) {
   return str && /^[0-9a-zA-Z]*$/.test(str) && str.length <= 20
 }
 
+// 校验整数是否处于 [a, b] 范围内
+function examNumInRange(num, a, b) {
+  return typeof num === 'number' && num >= a && num <= b
+}
 
+// 校验数组所有元素是否为 T 类型
+// T: string, number, boolean
+function examArrType(arr, type) {
+  if(!['string', 'number', 'boolean'].find(item => item === type)) {
+    return false
+  }
+  for(let item of arr) {
+    if(typeof item !== type) {
+      return false
+    }
+  }
+  return true
+}
 
 module.exports = {
   examUP,
+  examNumInRange,
+  examArrType,
 }

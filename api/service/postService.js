@@ -1,12 +1,27 @@
 const dao = require('../dao/index')
+const utils = require('../utils/index')
 
-// 将 dao 层查询的数据格式化返回给 controller 层
-function parsePostList(info, callback) {
+// 获取帖子列表
+function getPostList(info, callback) {
+  // 校验参数
+  let {tagList, page} = info
+  tagList = tagList ?? []
+  // 校验每个 tag 为 number
+  if(!utils.examArrType(tagList, 'number')) {
+    callback({code: 20000, msg: '标签 id 应为整数'}, null)
+    return
+  }
+  // 校验分页 index 和 size 范围，应位于 1 - 1000
+  page = page ?? {index: 1, size: 10}
+  if(!utils.examNumInRange(page.index, 1, 1000) || !utils.examNumInRange(page.size, 1, 1000)) {
+    callback({code: 20000, msg: '页数和每页数据大小应在 1 到 1000 之间'}, null)
+    return
+  }
   // 查询数据库
   dao.post.queryPostList(info, (err, data) => {
     if(err) {
-      console.log('[service] parsePostList err: err same as [dao]')
-      callback(err, null)
+      callback({code: 30000, msg: '数据库错误'}, null)
+      return
     } else {
       // 数据处理
       const res = {}
@@ -44,5 +59,5 @@ function parsePostList(info, callback) {
 }
 
 module.exports = {
-  parsePostList,
+  getPostList,
 }
