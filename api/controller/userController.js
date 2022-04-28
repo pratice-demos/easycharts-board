@@ -21,7 +21,9 @@ function register(req, res) {
       ans = {
         code: 10000,
         msg: '成功',
-        data: data
+        data: {
+          userId: data.userId
+        }
       }
       // 设置 cookie
       cookie.setCookie(res, {
@@ -53,7 +55,9 @@ function login(req, res) {
       ans = {
         code: 10000,
         msg: '成功',
-        data: data
+        data: {
+          userId: data.userId
+        }
       }
       // 设置 cookie
       cookie.setCookie(res, {

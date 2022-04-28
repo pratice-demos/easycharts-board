@@ -8,14 +8,14 @@ const mysql = require('mysql')
  */
 function queryUserWithU(info, callback) {
   let sql = `
-    SELECT userId FROM user
+    SELECT userId, userName, userTime FROM user
     WHERE userName = ?
   `
   // sql 字符串转义
   sql = mysql.format(sql, [info.userName])
   db.sqlConnect(sql, [], (err, res) => {
     if(err) {
-      console.log('[dao] queryUser err: ', err)
+      console.log('[dao] queryUserWithU err: ', err)
       callback(err, null)
     } else {
       callback(null, res)
@@ -30,7 +30,7 @@ function queryUserWithU(info, callback) {
  */
 function queryUserWithUP(info, callback) {
   let sql = `
-    SELECT userId FROM user
+    SELECT userId, userName, userTime FROM user
     WHERE userName = ?
     AND password = ?
   `
@@ -38,7 +38,30 @@ function queryUserWithUP(info, callback) {
   sql = mysql.format(sql, [info.userName, info.password])
   db.sqlConnect(sql, [], (err, res) => {
     if(err) {
-      console.log('[dao] queryUser err: ', err)
+      console.log('[dao] queryUserWithUP err: ', err)
+      callback(err, null)
+    } else {
+      callback(null, res)
+    }
+  })
+}
+
+/**
+ * 根据用户名和 nanoId 查询用户，返回查询到的用户信息
+ * @param info {userName & nanoId} 传入参数
+ * @param callback {function} 回调函数
+ */
+function queryUserWithUN(info, callback) {
+  let sql = `
+    SELECT userId, userName, userTime FROM user
+    WHERE userName = ?
+    AND nanoId = ?
+  `
+  // sql 字符串转义
+  sql = mysql.format(sql, [info.userName, info.nanoId])
+  db.sqlConnect(sql, [], (err, res) => {
+    if(err) {
+      console.log('[dao] queryUserWithUN err: ', err)
       callback(err, null)
     } else {
       callback(null, res)
@@ -94,6 +117,7 @@ function updateUserNanoId(info, callback) {
 module.exports = {
   queryUserWithU,
   queryUserWithUP,
+  queryUserWithUN,
   addUser,
   updateUserNanoId,
 }
