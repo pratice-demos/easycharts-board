@@ -8,7 +8,8 @@ const mysql = require('mysql')
  */
 function queryUserWithU(info, callback) {
   let sql = `
-    SELECT userId, userName, userTime FROM user
+    SELECT userId, userName, UNIX_TIMESTAMP(userTime) AS userTime
+    FROM user
     WHERE userName = ?
   `
   // sql 字符串转义
@@ -30,7 +31,8 @@ function queryUserWithU(info, callback) {
  */
 function queryUserWithUP(info, callback) {
   let sql = `
-    SELECT userId, userName, userTime FROM user
+    SELECT userId, userName, UNIX_TIMESTAMP(userTime) AS userTime 
+    FROM user
     WHERE userName = ?
     AND password = ?
   `
@@ -53,7 +55,8 @@ function queryUserWithUP(info, callback) {
  */
 function queryUserWithUN(info, callback) {
   let sql = `
-    SELECT userId, userName, userTime FROM user
+    SELECT userId, userName, UNIX_TIMESTAMP(userTime) AS userTime 
+    FROM user
     WHERE userName = ?
     AND nanoId = ?
   `

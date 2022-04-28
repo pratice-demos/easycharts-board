@@ -8,8 +8,8 @@ const mysql = require('mysql')
  */
 function queryPostList(info, callback) {
   let sql = `
-    SELECT postId, content, postTime, config,
-    userId, userName, password, userTime,
+    SELECT postId, content, UNIX_TIMESTAMP(postTime) AS postTime, config,
+    userId, userName, password, UNIX_TIMESTAMP(userTime) AS userTime,
     T.tagId AS tagId, detail
     FROM 
     (SELECT postId, content, postTime, config,
@@ -23,6 +23,7 @@ function queryPostList(info, callback) {
     WHERE C.tagId IN (${
       info.tagList.toString()
     })
+    ORDER BY postTime DESC
     LIMIT ?, ?
   `
   // sql 转义
