@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const router = require('./router/index');
+const msg = require('./config/msg.config')
 
 const app = express();
 
@@ -10,7 +11,7 @@ const server = http.createServer(app)
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(cookieParser(msg.cookieSecret));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 导入路由

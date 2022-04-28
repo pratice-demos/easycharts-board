@@ -5,6 +5,10 @@ let sqlUser = 'root'
 let sqlPwd = '123456'
 let sqlDatabase = 'board'
 let sqlConLimit = 10
+// Cookie
+let cookieSecret = 'SuiBianXieDe123456'
+let cookieDomain = 'localhost'
+let cookieMaxAge = 180000
 
 module.exports = {
   sqlHost,
@@ -13,4 +17,7 @@ module.exports = {
   sqlPwd,
   sqlDatabase,
   sqlConLimit,
+  cookieSecret,
+  cookieDomain,
+  cookieMaxAge,
 }

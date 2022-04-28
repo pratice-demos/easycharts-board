@@ -68,10 +68,23 @@ function login(info, callback) {
         callback({code: 20000, msg: '用户名或密码错误'})
         return
       } else {
-        const res = {
-          userId: data[0].userId
-        }
-        callback(null, res)
+        // 生成 nanoId
+        const id = nanoid.nanoid(10)
+        info.nanoId = id
+        // 更新 nanoId
+        dao.user.updateUserNanoId(info, (err, da) => {
+          if(err) {
+            callback({code: 30000, msg: '数据库错误'}, null)
+            return
+          } else {
+            const res = {
+              userId: data[0].userId,
+              nanoId: id
+            }
+            callback(null, res)
+          }
+        })
+
       }
     }
   })
