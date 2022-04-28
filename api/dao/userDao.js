@@ -1,7 +1,11 @@
 const db = require('./db')
 const mysql = require('mysql')
 
-// 根据用户名查询用户，返回用户 id
+/**
+ * 根据用户名查询用户，返回查询到用户信息
+ * @param info {userName} 传入参数
+ * @param callback {function} 回调函数
+ */
 function queryUserWithU(info, callback) {
   let sql = `
     SELECT userId FROM user
@@ -19,7 +23,11 @@ function queryUserWithU(info, callback) {
   })
 }
 
-// 根据用户名和密码查询用户，返回用户 id
+/**
+ * 根据用户名进和密码查询用户，返回查询到用户信息
+ * @param info {userName & password} 传入参数
+ * @param callback {function} 回调函数
+ */
 function queryUserWithUP(info, callback) {
   let sql = `
     SELECT userId FROM user
@@ -38,7 +46,11 @@ function queryUserWithUP(info, callback) {
   })
 }
 
-// 增加新用户
+/**
+ * 增加新用户
+ * @param info {userName & password & nanoId} 传入参数
+ * @param callback {function} 回调函数
+ */
 function addUser(info, callback) {
   let sql = `
     INSERT INTO user (userName, password, nanoId)

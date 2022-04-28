@@ -1,6 +1,10 @@
 const service = require('../service/index')
 
-// 用户注册
+/**
+ * 用户注册接口
+ * @param req 请求对象
+ * @param res 响应对象
+ */
 function register(req, res) {
   // 取出参数
   let {userName, password} = req.body
@@ -21,7 +25,11 @@ function register(req, res) {
   })
 }
 
-// 用户登录
+/**
+ * 用户登录接口
+ * @param req 请求对象
+ * @param res 响应对象
+ */
 function login(req, res) {
   // 取出参数
   let {userName, password} = req.body

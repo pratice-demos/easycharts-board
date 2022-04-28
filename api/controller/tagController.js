@@ -1,6 +1,10 @@
 const service = require('../service/index')
 
-// 获取标签列表
+/**
+ * 获取标签列表接口
+ * @param req 请求对象
+ * @param res 响应对象
+ */
 function getTagList (req, res) {
   service.tag.getTagList(null, (err, data) => {
     let ans = {}

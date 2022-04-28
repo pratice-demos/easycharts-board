@@ -1,7 +1,11 @@
 const dao = require('../dao/index')
 const utils = require('../utils/index')
 
-// 获取帖子列表
+/**
+ * 根据标签列表获取帖子列表
+ * @param info {tagList & page} 传入参数
+ * @param callback {function} 回调函数
+ */
 function getPostList(info, callback) {
   // 校验参数
   let {tagList, page} = info

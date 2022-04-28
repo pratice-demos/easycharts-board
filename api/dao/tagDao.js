@@ -1,6 +1,10 @@
 const db = require('./db')
 
-// 查询标签列表
+/**
+ * 获取所有标签
+ * @param info {null} 不传参
+ * @param callback {function} 回调函数
+ */
 function queryTagList(info, callback) {
   const sql = `SELECT * FROM tag`
   db.sqlConnect(sql, [], (err, res) => {

@@ -2,7 +2,11 @@ const dao = require('../dao/index')
 const nanoid = require('nanoid')
 const utils = require('../utils/index')
 
-// 用户注册
+/**
+ * 用户注册，返回数据同接口文档
+ * @param info {userName & password} 传入参数
+ * @param callback {function} 回调函数
+ */
 function register(info, callback) {
   // 校验参数
   if(!utils.examUP(info.userName) || !utils.examUP(info.password)) {
@@ -42,7 +46,11 @@ function register(info, callback) {
   })
 }
 
-// 用户登录
+/**
+ * 用户登录，返回数据同接口文档
+ * @param info {userName & password} 传入参数
+ * @param callback {function} 回调函数
+ */
 function login(info, callback) {
   // 校验参数
   if(!utils.examUP(info.userName) || !utils.examUP(info.password)) {

@@ -1,6 +1,10 @@
 const service = require('../service/index')
 
-// 根据标签获取帖子列表
+/**
+ * 获取帖子列表接口
+ * @param req 请求对象
+ * @param res 响应对象
+ */
 function getPostList(req, res) {
   let ans = {}
   let {tagList, page} = req.body

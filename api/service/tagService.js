@@ -1,6 +1,10 @@
 const dao = require('../dao/index')
 
-// 将 dao 层查询的数据格式化返回给 controller 层
+/**
+ * 获取标签列表，返回数据同接口文档
+ * @param info {null} 不传参
+ * @param callback {function} 回调函数
+ */
 function getTagList(info, callback) {
   // 查询数据库
   dao.tag.queryTagList(info, (err, data) => {

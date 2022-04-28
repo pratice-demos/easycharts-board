@@ -1,7 +1,11 @@
 const db = require('./db')
 const mysql = require('mysql')
 
-// 根据标签列表获取帖子列表
+/**
+ * 根据标签列表查询数据库，返回含有标签的帖子
+ * @param info {page & tagList} 传入参数
+ * @param callback {function} 回调函数
+ */
 function queryPostList(info, callback) {
   let sql = `
     SELECT postId, content, postTime, config,
