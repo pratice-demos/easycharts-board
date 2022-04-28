@@ -11,6 +11,7 @@
 
 .card-border {
     border: 1px solid #eee;
+    transition: border 0.25s ease-in-out;
 }
 
 .card-border:hover {

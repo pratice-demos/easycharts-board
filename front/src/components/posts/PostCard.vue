@@ -1,6 +1,5 @@
 <script setup>
-import {toRefs} from "vue";
-import defaultAvatar from '../../assets/default-avatar.jpg'
+import {toRefs} from "vue"
 
 const props = defineProps({
   postDetail: Object
@@ -12,24 +11,17 @@ const {postDetail} = toRefs(props)
   <div class="post-card card-border">
     <div class="head">
       <div class="left">
-        <div class="avatar-con">
-          <el-image
-            class="avatar"
-            :src="postDetail.user.avatar || defaultAvatar"
-            :fit="cover"
-          >
-          </el-image>
-        </div>
-        <div class="userName">
+        <div class="userName link-text">
           {{postDetail.user.userName || "无名"}}
         </div>
         <div class="time">
-          {{postDetail.post.time || 0}}
+          <span class="tip">分享于</span>
+          <span>{{postDetail.post.postTime || 0}}</span>
         </div>
       </div>
       <div class="right link-text">
         <span class="icon">#</span>
-        <span>{{postDetail.post.tag.desc}}</span>
+        <span>{{postDetail.tag.detail}}</span>
       </div>
     </div>
     <div class="content">
@@ -60,22 +52,16 @@ const {postDetail} = toRefs(props)
 }
 
 .left>div {
+  margin-right: 25px;
+}
+
+.time .tip {
+  display: inline-block;
   margin-right: 20px;
 }
 
-.avatar-con {
-  flex: none;
-}
-
-.avatar {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
 .right .icon {
-  padding: 0px 8px;
+  padding: 0 8px;
 }
 
 .content {
