@@ -101,7 +101,9 @@ function auth(info, callback) {
     } else if(!data[0]) {
       callback({code: 20000, msg: '认证失败，请登录'}, null)
     } else {
-      callback(null, data[0])
+      callback(null, {
+        userMsg: data[0]
+      })
     }
   })
 }

@@ -8,7 +8,6 @@ const utils = require('../utils/index')
  */
 function getPostList(info, callback) {
   // 校验参数
-  console.log('info', info)
   let {tagList, page} = info
   if(!tagList || !page?.index || !page?.size) {
     callback({code: 20000, msg: '请求参数错误'}, null)
@@ -43,7 +42,6 @@ function getPostList(info, callback) {
     dao.post.queryPostWithTag(info, (err, data) => {
       if (err) {
         callback({code: 30000, msg: '数据库错误'}, null)
-        return
       } else {
         // 数据处理
         const res = {}
@@ -103,7 +101,6 @@ function createPost(info, callback) {
   dao.user.queryUserWithUN({userName, nanoId,}, (err, data1) => {
     if(err) {
       callback({code: 30000, msg: '数据库错误'}, null)
-      return
     } else {
       // 判断用户是否存在，nanoId 是否正确
       const user = data1[0]
@@ -115,7 +112,6 @@ function createPost(info, callback) {
       dao.tag.queryTag({tagId: post.tagId}, (err, data2) => {
         if(err) {
           callback({code: 30000, msg: '数据库错误'}, null)
-          return
         } else {
           // 判断 tagId 是否存在于数据库中
           if(!data2 || !data2[0]) {
