@@ -51,6 +51,10 @@ const {postDetail} = toRefs(props)
   align-items: center;
 }
 
+.userName {
+  font-size: 15px;
+}
+
 .left>div {
   margin-right: 25px;
 }

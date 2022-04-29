@@ -1,5 +1,6 @@
 <script setup>
 import TagSelector from "../components/tags/TagSelector.vue"
+import PostList from "../components/posts/PostList.vue"
 import {onMounted, ref, watch} from "vue"
 import {useTagStore} from "../store/tag";
 import {usePostStore} from "../store/post";
@@ -95,6 +96,7 @@ onMounted(async () => {
           :total="pageTotal"
           layout="prev, pager, next"
           :pagerCount="6"
+          :hide-on-single-page="true"
         />
       </div>
     </div>
