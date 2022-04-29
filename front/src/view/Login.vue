@@ -1,6 +1,9 @@
 <script setup>
 import {reactive, ref} from "vue";
 import {examUP} from "../../utils";
+import {useUserStore} from "../store/user";
+import {ElMessage} from "element-plus";
+import {useRouter} from "vue-router";
 
 const loginForm = ref()
 
@@ -47,20 +50,39 @@ function validateP (rule, value, callback) {
   }
 }
 
+const userStore = useUserStore()
+const router = useRouter()
+
 function handleLogin(loginForm) {
   if(!loginForm) return
-  loginForm.validate((valid) => {
+  loginForm.validate(async (valid) => {
     if(valid) {
-      console.log(form)
+      const data = {
+        userName: form.userName,
+        password: form.password
+      }
+      if((await userStore.login(data)).value) {
+        ElMessage.success('登录成功')
+        await router.push({name: 'Board'})
+        console.log(userStore.getUserMsg().value)
+      }
     }
   })
 }
 
 function handleRegister(loginForm) {
   if(!loginForm) return
-  loginForm.validate((valid) => {
+  loginForm.validate(async (valid) => {
     if(valid) {
-      console.log(form)
+      const data = {
+        userName: form.userName,
+        password: form.password
+      }
+      if((await userStore.register(data)).value) {
+        ElMessage.success('注册成功')
+        await router.push({name: 'Board'})
+        console.log(userStore.getUserMsg().value)
+      }
     }
   })
 }

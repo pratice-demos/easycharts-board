@@ -6,7 +6,7 @@ import {useUserStore} from "../store/user"
 const routes = [
   {
     path: '/',
-    name: 'Broad',
+    name: 'Board',
     component: Broad
   },
   {
@@ -25,10 +25,10 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
   // 未认证跳转到登录页面
-  if(to.name !== 'Login' && !userStore.getLogin() && !(await userStore.auth())) {
+  if(to.name !== 'Login' && !userStore.getLogin().value && !(await userStore.auth()).value) {
     next({name: 'Login'})
-  } else if(to.name === 'Login' && (userStore.getLogin() || (await userStore.auth()))) {
-    next({name: 'Broad'})
+  } else if(to.name === 'Login' && userStore.getLogin().value) {
+    next({name: 'Board'})
   } else {
     next()
   }

@@ -4,21 +4,21 @@ import {ElMessage} from "element-plus"
 
 // 服务器地址
 // const baseURL = "http://127.0.0.1:4523/mock/910742"
-const baseURL = "http://127.0.0.1:4000"
+const baseURL = "http://localhost:4000"
 
 // 实例化和初始化 axios
 const request = axios.create({
   baseURL,
   headers: {
     get: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+      'Content-Type': 'application/json;charset=utf-8'
     },
     post: {
       'Content-Type': 'application/json;charset=utf-8'
     }
   },
   // 是否跨站点访问控制请求
-  withCredentials: false,
+  withCredentials: true,
   timeout: 30000,
   // query 格式化
   transformRequest: [(data) => {
@@ -40,11 +40,11 @@ request.interceptors.request.use((config) => {
   if(token) {
     config.headers.Authorization = `${token}`
   }
-  return config
+  return Promise.resolve(config)
 }, (error) => {
   console.log('request interceptor error', error);
   ElMessage.error('网络错误！')
-  Promise.reject(error)
+  return Promise.reject(error)
 })
 
 // 响应拦截器
@@ -61,17 +61,18 @@ request.interceptors.response.use((response) => {
     }
     console.log("network error", response)
     ElMessage.error('网络错误！')
-    Promise.reject(response)
+    return Promise.reject(response)
   } else if(response.data.code === 30000) {
     console.log("database error", response)
     ElMessage.error(response.data.msg)
-    Promise.reject(response)
+    return Promise.reject(response)
   } else if(response.data.code !== 10000) {
     console.log("user error", response)
     ElMessage.warning(response.data.msg)
-    Promise.reject(response)
+    return Promise.reject(response)
+  } else {
+    return Promise.resolve(response)
   }
-  return response
 }, (error) => {
   // 请求被取消
   if(axios.isCancel(error)) {
@@ -81,7 +82,7 @@ request.interceptors.response.use((response) => {
     console.log('response interceptor error', error);
     ElMessage.error('网络错误！')
   }
-  Promise.reject(error)
+  return Promise.reject(error)
 })
 
 export default request
