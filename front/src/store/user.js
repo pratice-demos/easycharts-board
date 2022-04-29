@@ -1,6 +1,6 @@
 import {defineStore} from "pinia"
 import {ref} from "vue"
-import {login as httpLogin, register as httpRegister, auth as httpAuth} from "../http"
+import {login as httpLogin, register as httpRegister, auth as httpAuth} from "../http/index"
 
 export const useUserStore = defineStore('user', function() {
   let userMsg = ref()
@@ -13,7 +13,7 @@ export const useUserStore = defineStore('user', function() {
       const res = await httpRegister({userName, password,})
       userMsg.value = {
         userName,
-        userId: res.data.userId,
+        userId: res.data.data.userId,
         userTime: new Date().getTime()
       }
       isLogin.value = true
@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', function() {
       userMsg.value = null
       isLogin.value = false
     }
-    return isLogin.value
+    return isLogin
   }
 
   // 注册
@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', function() {
       const res = await httpLogin({userName, password,})
       userMsg.value = {
         userName,
-        userId: res.data.userId,
+        userId: res.data.data.userId,
         userTime: new Date().getTime()
       }
       isLogin.value = true
@@ -39,30 +39,30 @@ export const useUserStore = defineStore('user', function() {
       userMsg.value = null
       isLogin.value = false
     }
-    return isLogin.value
+    return isLogin
   }
 
   // 认证
   async function auth() {
     try {
       const res = await httpAuth()
-      userMsg.value = res.data.userMsg
+      userMsg.value = res.data.data.userMsg
       isLogin.value = true
     } catch (err) {
       userMsg.value = null
       isLogin.value = false
     }
-    return isLogin.value
+    return isLogin
   }
 
   // 判断是否登录
   function getLogin() {
-    return isLogin.value
+    return isLogin
   }
 
   // 获取用户信息
   function getUserMsg() {
-    return userMsg.value
+    return userMsg
   }
 
   return {

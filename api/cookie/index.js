@@ -9,7 +9,7 @@ function setCookie(res, data) {
   const keys = Object.keys(data)
   for(let key of keys) {
     res.cookie(key, data[key], {
-      domain: msg.cookieDomain,
+      domain: msg.frontHost,
       maxAge: msg.cookieMaxAge,
       signed: true
     })
@@ -19,7 +19,7 @@ function setCookie(res, data) {
 /**
  * 删除 cookie
  * @param res 响应对象
- * @param arr {array} 清除的 cookies 名
+ * @param data {array} 清除的 cookies 名
  */
 function delCookie(res, data) {
   for(let item of data) {
