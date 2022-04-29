@@ -1,5 +1,35 @@
 import request from "./axios"
 
+// 登录
+export async function login(data) {
+  return request('/api/login', {
+    method: 'post',
+    responseType: 'json',
+    data: {
+      ...data
+    }
+  })
+}
+
+// 注册
+export async function register(data) {
+  return request('/api/register', {
+    method: 'post',
+    responseType: 'json',
+    data: {
+      ...data
+    }
+  })
+}
+
+// 认证
+export async function auth() {
+  return request('/api/auth', {
+    method: 'get',
+    responseType: 'json',
+  })
+}
+
 // 请求标签列表
 export async function getTagList(params) {
   return request('/api/getTagList', {
