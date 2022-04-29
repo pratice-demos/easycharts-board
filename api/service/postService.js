@@ -8,9 +8,14 @@ const utils = require('../utils/index')
  */
 function getPostList(info, callback) {
   // 校验参数
+  console.log('info', info)
   let {tagList, page} = info
-  tagList = tagList ?? []
+  if(!tagList || !page?.index || !page?.size) {
+    callback({code: 20000, msg: '请求参数错误'}, null)
+    return
+  }
   // 校验每个 tag 为 number
+  tagList = tagList ?? []
   if(!utils.examArrType(tagList, 'number')) {
     callback({code: 20000, msg: '标签 id 应为整数'}, null)
     return
@@ -22,44 +27,58 @@ function getPostList(info, callback) {
     return
   }
   // 查询数据库
-  dao.post.queryPostList(info, (err, data) => {
-    if(err) {
-      callback({code: 30000, msg: '数据库错误'}, null)
-      return
-    } else {
-      // 数据处理
-      const res = {}
-      data = data ?? []
-      // 分页数据
-      res.page = {
-        size: info.page.size,
-        index: info.page.index,
-        total: data.length
-      }
-      // 帖子列表
-      res.postList = []
-      for(let i in data) {
-        res.postList[i] = {
-          post: {
-            postId: data[i].postId,
-            content: data[i].content,
-            config: data[i].config,
-            postTime: data[i].postTime,
-          },
-          user: {
-            userId: data[i].userId,
-            userName: data[i].userName,
-            userTime: data[i].userTime,
-          },
-          tag: {
-            tagId: data[i].tagId,
-            detail: data[i].detail,
+  if(!tagList.length) {
+    // 返回空数据
+    const res = {}
+    // 分页数据
+    res.page = {
+      size: page.size,
+      index: page.index,
+      total: 0
+    }
+    // 帖子列表
+    res.postList = []
+    callback(null, res)
+  } else {
+    dao.post.queryPostWithTag(info, (err, data) => {
+      if (err) {
+        callback({code: 30000, msg: '数据库错误'}, null)
+        return
+      } else {
+        // 数据处理
+        const res = {}
+        data = data ?? []
+        // 分页数据
+        res.page = {
+          size: page.size,
+          index: page.index,
+          total: data.length
+        }
+        // 帖子列表
+        res.postList = []
+        for (let i in data) {
+          res.postList[i] = {
+            post: {
+              postId: data[i].postId,
+              content: data[i].content,
+              config: data[i].config,
+              postTime: data[i].postTime,
+            },
+            user: {
+              userId: data[i].userId,
+              userName: data[i].userName,
+              userTime: data[i].userTime,
+            },
+            tag: {
+              tagId: data[i].tagId,
+              detail: data[i].detail,
+            }
           }
         }
+        callback(null, res)
       }
-      callback(null, res)
-    }
-  })
+    })
+  }
 }
 
 /**

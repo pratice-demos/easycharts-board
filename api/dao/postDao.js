@@ -6,7 +6,7 @@ const mysql = require('mysql')
  * @param info {page & tagList} 传入参数
  * @param callback {function} 回调函数
  */
-function queryPostList(info, callback) {
+function queryPostWithTag(info, callback) {
   let sql = `
     SELECT postId, content, UNIX_TIMESTAMP(postTime) AS postTime, config,
     userId, userName, password, UNIX_TIMESTAMP(userTime) AS userTime,
@@ -32,7 +32,7 @@ function queryPostList(info, callback) {
   // sql 查询
   db.sqlConnect(sql, [], (err, res) => {
     if(err) {
-      console.log('[dao] queryPostList err: ', err)
+      console.log('[dao] queryPostWithTag err: ', err)
       callback(err, null)
     } else {
       callback(null, res)
@@ -64,6 +64,6 @@ function addPost(info, callback) {
 }
 
 module.exports = {
-  queryPostList,
+  queryPostWithTag,
   addPost,
 }

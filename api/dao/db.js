@@ -16,8 +16,8 @@ module.exports = {
     const pool = mysql.createPool(this.config)
     pool.getConnection((err, conn) => {
       if(err) {
-        console.log('sql connect err', err)
-        return;
+        console.log('[sql] sql connect err', err)
+        return
       }
       conn.query(sql, sqlArr, callBack)
       conn.release()

@@ -1,6 +1,7 @@
 const express = require('express');
-const path = require('path');
+// const path = require('path');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
 const router = require('./router/index');
 const msg = require('./config/msg.config')
 
@@ -12,7 +13,8 @@ const server = http.createServer(app)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(msg.cookieSecret));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+// app.use(express.static(path.join(__dirname, 'public')));
 
 // 导入路由
 app.use('/', router);
