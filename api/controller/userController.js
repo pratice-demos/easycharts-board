@@ -69,7 +69,34 @@ function login(req, res) {
   })
 }
 
+/**
+ * 用户认证接口
+ * @param req 请求对象
+ * @param res 响应对象
+ */
+function auth(req, res) {
+  // 获取 cookie 登录凭证
+  const userName = cookie.getCookie(req, 'userName')
+  const nanoId = cookie.getCookie(req, 'nanoId')
+  // 查询数据库
+  service.user.auth({userName, nanoId}, (err, data) => {
+    let ans = {}
+    if(err) {
+      ans.code = err.code
+      ans.msg = err.msg
+    } else {
+      ans = {
+        code: 10000,
+        msg: '成功',
+        data: data
+      }
+    }
+    res.send(ans)
+  })
+}
+
 module.exports = {
   register,
   login,
+  auth,
 }

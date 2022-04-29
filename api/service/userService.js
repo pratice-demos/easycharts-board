@@ -17,12 +17,10 @@ function register(info, callback) {
   dao.user.queryUserWithU(info, (err, data) => {
     if(err) {
       callback({code: 30000, msg: '数据库错误'}, null)
-      return
     } else {
       // 用户存在，抛出错误
       if(data && data[0]) {
         callback({code: 20000, msg: '用户已存在'})
-        return
       } else {    // 用户不存在，创建用户
         // 生成 nanoid
         const id = nanoid.nanoid(10)
@@ -31,7 +29,6 @@ function register(info, callback) {
         dao.user.addUser(info, (err, data) => {
           if (err) {
             callback({code: 30000, msg: '数据库错误'}, null)
-            return
           } else {
             // 数据处理
             const res = {
@@ -61,12 +58,10 @@ function login(info, callback) {
   dao.user.queryUserWithUP(info, (err, data) => {
     if(err) {
       callback({code: 30000, msg: '数据库错误'}, null)
-      return
     } else {
       // 用户不存在，登录失败
       if(!data[0]) {
         callback({code: 20000, msg: '用户名或密码错误'})
-        return
       } else {
         // 生成 nanoId
         const id = nanoid.nanoid(10)
@@ -75,7 +70,6 @@ function login(info, callback) {
         dao.user.updateUserNanoId(info, (err, da) => {
           if(err) {
             callback({code: 30000, msg: '数据库错误'}, null)
-            return
           } else {
             const res = {
               userId: data[0].userId,
@@ -84,8 +78,30 @@ function login(info, callback) {
             callback(null, res)
           }
         })
-
       }
+    }
+  })
+}
+
+/**
+ * 用户认证，返回数据同接口文档
+ * @param info {userName & nanoId} 传入参数
+ * @param callback {function} 回调函数
+ */
+function auth(info, callback) {
+  // 校验参数
+  if(!utils.examUP(info.userName) || !info.nanoId || typeof info.nanoId !== 'string') {
+    callback({code: 20000, msg: '认证失败，请登录'}, null)
+    return
+  }
+  // 登录
+  dao.user.queryUserWithUN(info, (err, data) => {
+    if(err) {
+      callback({code: 30000, msg: '数据库错误'}, null)
+    } else if(!data[0]) {
+      callback({code: 20000, msg: '认证失败，请登录'}, null)
+    } else {
+      callback(null, data[0])
     }
   })
 }
@@ -93,4 +109,5 @@ function login(info, callback) {
 module.exports = {
   register,
   login,
+  auth,
 }
