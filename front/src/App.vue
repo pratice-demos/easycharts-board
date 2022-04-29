@@ -1,11 +1,9 @@
 <script setup>
-import Broad from "./view/Broad.vue"
+
 </script>
 
 <template>
-  <Broad
-    class="broad"
-  />
+  <router-view></router-view>
 </template>
 
 <style>
@@ -19,10 +17,5 @@ import Broad from "./view/Broad.vue"
 
 body {
   margin: 0;
-}
-
-.broad {
-  width: 1000px;
-  margin: 0 auto;
 }
 </style>

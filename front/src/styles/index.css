@@ -11,9 +11,10 @@
 
 .card-border {
     border: 1px solid #eee;
-    transition: border 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
 }
 
 .card-border:hover {
-    border: 1px solid var(--el-color-primary-light-3);
+    border: 1px solid var(--el-color-primary-light-9);
+    box-shadow: 0 0 5px var(--el-color-primary-light-5);
 }
