@@ -12,12 +12,12 @@ export async function getTagList(params) {
 }
 
 // 请求帖子列表
-export async function getPostList(params) {
+export async function getPostList(data) {
   return request('/api/getPostList', {
     method: 'post',
     responseType: 'json',
-    params: {
-      ...params
+    data: {
+      ...data
     }
   })
 }

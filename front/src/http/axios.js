@@ -3,8 +3,8 @@ import {getMessage} from "./status"
 import {ElMessage} from "element-plus"
 
 // 服务器地址
-const baseURL = "http://127.0.0.1:4523/mock/910742"
-// const baseURL = "https://demo.com"
+// const baseURL = "http://127.0.0.1:4523/mock/910742"
+const baseURL = "http://127.0.0.1:4000"
 
 // 实例化和初始化 axios
 const request = axios.create({
@@ -20,7 +20,7 @@ const request = axios.create({
   // 是否跨站点访问控制请求
   withCredentials: false,
   timeout: 30000,
-  // 请求格式化
+  // query 格式化
   transformRequest: [(data) => {
     data = JSON.stringify(data)
     return data
@@ -61,6 +61,14 @@ request.interceptors.response.use((response) => {
     }
     console.log("network error", response)
     ElMessage.error('网络错误！')
+    Promise.reject(response)
+  } else if(response.data.code === 30000) {
+    console.log("database error", response)
+    ElMessage.error(response.data.msg)
+    Promise.reject(response)
+  } else if(response.data.code !== 10000) {
+    console.log("user error", response)
+    ElMessage.warning(response.data.msg)
     Promise.reject(response)
   }
   return response
