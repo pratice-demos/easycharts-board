@@ -1,6 +1,5 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const cors = require('cors')
 const router = require('./router/index')
 const msg = require('./config/msg.config')
 const path = require("path")
@@ -18,13 +17,18 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser(msg.cookieSecret))
 
 // 设置跨域
-app.use(cors({
-  origin: [`${msg.frontDomain}:${msg.frontPort}`],   // 允许该域名下的请求
-  methods: ["GET", "POST"], // 允许接受的请求类型
-  alloweHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin'],　　//请求头
-  exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-  credentials: true,
-}))
+app.use((req, res, next) => {
+  if(req.path !== '/' && !req.path.includes('.')){
+    res.set({
+      'Access-Control-Allow-Credentials': true, //允许后端发送cookie
+      'Access-Control-Allow-Origin': req.headers.origin, //基于请求头里面的域
+      'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type', //设置请求头格式和类型
+      'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS',//允许支持的请求方式
+      'Content-Type': 'application/json; charset=utf-8'//默认与允许的文本格式json和编码格式
+    })
+  }
+  next()
+})
 
 // 日志
 const logDirectory = path.join(__dirname, 'log')
