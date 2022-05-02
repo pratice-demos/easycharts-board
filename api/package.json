@@ -3,13 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "(set NODE_ENV=development|| export NODE_ENV=development)&& node app.js",
+    "serve": "(set NODE_ENV=production|| export NODE_ENV=production)&& node app.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.6",
     "cors": "^2.8.5",
     "express": "~4.16.1",
+    "file-stream-rotator": "^0.6.1",
     "http-errors": "~1.6.3",
+    "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "nanoid": "^3.3.3"
   }

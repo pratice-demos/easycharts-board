@@ -3,6 +3,10 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors')
 const router = require('./router/index')
 const msg = require('./config/msg.config')
+const path = require("path")
+const morgan = require('morgan')
+const fs = require('fs')
+const FileStreamRotator = require('file-stream-rotator')
 
 const app = express()
 
@@ -22,8 +26,25 @@ app.use(cors({
   credentials: true,
 }))
 
-// 导入路由
-app.use('/', router)
+// 日志
+const logDirectory = path.join(__dirname, 'log')
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
+const accessLogStream = FileStreamRotator.getStream({
+  date_format: 'YYYYMMDD',
+  filename: path.join(logDirectory, 'access-%DATE%.log'),
+  frequency: 'daily',
+  verbose: false
+})
+function log (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join(' ')
+}
+app.use(morgan(log, {stream: accessLogStream}));
 
 // 错误处理
 app.use(function (err, req, res, next) {
@@ -31,4 +52,7 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!')
 })
 
-server.listen(msg.backPort)
+// 导入路由
+app.use('/', router)
+
+server.listen(4000)
