@@ -2,7 +2,7 @@ import request from "./axios"
 
 // 登录
 export async function login(data) {
-  return request('/api/login', {
+  return request('/login', {
     method: 'post',
     responseType: 'json',
     data: {
@@ -13,7 +13,7 @@ export async function login(data) {
 
 // 注册
 export async function register(data) {
-  return request('/api/register', {
+  return request('/register', {
     method: 'post',
     responseType: 'json',
     data: {
@@ -24,7 +24,7 @@ export async function register(data) {
 
 // 认证
 export async function auth() {
-  return request('/api/auth', {
+  return request('/auth', {
     method: 'get',
     responseType: 'json',
   })
@@ -32,7 +32,7 @@ export async function auth() {
 
 // 请求标签列表
 export async function getTagList(params) {
-  return request('/api/getTagList', {
+  return request('/getTagList', {
     method: 'get',
     responseType: 'json',
     params: {
@@ -43,7 +43,7 @@ export async function getTagList(params) {
 
 // 请求帖子列表
 export async function getPostList(data) {
-  return request('/api/getPostList', {
+  return request('/getPostList', {
     method: 'post',
     responseType: 'json',
     data: {

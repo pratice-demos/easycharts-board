@@ -2,9 +2,8 @@ import axios from 'axios'
 import {getMessage} from "./status"
 import {ElMessage} from "element-plus"
 
-// 服务器地址
-// const baseURL = "http://127.0.0.1:4523/mock/910742"
-const baseURL = "http://localhost:4000"
+// 后端地址
+const baseURL = import.meta.env.DEV ? "http://localhost:4000/board" : "https://api.oxaliscu.moe/board"
 
 // 实例化和初始化 axios
 const request = axios.create({
