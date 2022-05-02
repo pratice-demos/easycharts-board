@@ -9,9 +9,9 @@ function setCookie(res, data) {
   const keys = Object.keys(data)
   for(let key of keys) {
     res.cookie(key, data[key], {
-      domain: msg.frontHost,
+      path: msg.frontPath,
       maxAge: msg.cookieMaxAge,
-      signed: true
+      signed: true,
     })
   }
 }

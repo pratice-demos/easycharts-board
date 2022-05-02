@@ -1,15 +1,15 @@
 // back and front
-let frontDomain = 'http://localhost'
-let backDomain = 'http://localhost'
+let frontDomain = process.env.NODE_ENV === 'development' ? 'http://localhost' : 'https://oxaliscu.moe'
 let frontPort = '3000'
-let backPort = '4000'
+let frontPath = '/board'
 // Database
 let sqlHost = 'localhost'
-let sqlPort = '3307'
+// let sqlPort = '3306'
+let sqlPort = process.env.NODE_ENV === 'development' ? '3307' : '3306'
 let sqlUser = 'root'
 let sqlPwd = '123456'
 let sqlDatabase = 'board'
-let sqlConLimit = 10
+let sqlConLimit = 5
 // Cookie
 let cookieSecret = 'SuiBianXieDe123456'
 let cookieMaxAge = 180000
@@ -24,7 +24,6 @@ module.exports = {
   cookieSecret,
   cookieMaxAge,
   frontDomain,
-  backDomain,
   frontPort,
-  backPort,
+  frontPath,
 }
