@@ -1,5 +1,5 @@
 const mysql = require('mysql')
-const msg =  require('../config/msg.config')
+const msg =  require('./msg.config')
 
 module.exports = {
   config: {
